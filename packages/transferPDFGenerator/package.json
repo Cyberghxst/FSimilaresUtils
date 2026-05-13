@@ -1,0 +1,17 @@
+{
+  "name": "transferpdfgenerator",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/ejs": "^3.1.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "puppeteer": "^24.43.0"
+  }
+}

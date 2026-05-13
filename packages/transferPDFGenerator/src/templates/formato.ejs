@@ -1,0 +1,475 @@
+<!-- templates/transfer.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <title>
+        Formato de Excedentes y Faltantes
+    </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: white;
+            color: black;
+        }
+
+        .page {
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #1e4fa8;
+            font-weight: bold;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1e4fa8;
+            margin-top: 4px;
+        }
+
+        .header .title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 16px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 3px solid black;
+        }
+
+        .row {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 12px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        .field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .field label {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .line {
+            flex: 1;
+            border-bottom: 3px solid black;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+        }
+
+        .small-line {
+            width: 90px;
+            border-bottom: 3px solid black;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+        }
+
+        .tables {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .table-wrapper {
+            flex: 1;
+        }
+
+        .table-title {
+            background: #d9d9d9;
+            text-align: center;
+            padding: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            border: 1px solid #666;
+            border-bottom: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            page-break-inside: auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #666;
+            padding: 6px;
+            height: 40px;
+            font-size: 14px;
+        }
+
+        th {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        .code-col {
+            width: 22%;
+        }
+
+        .desc-col {
+            width: 58%;
+        }
+
+        .qty-col {
+            width: 20%;
+            text-align: center;
+        }
+
+        .footer-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 40px;
+            gap: 24px;
+        }
+
+        .signature {
+            flex: 1;
+        }
+
+        .signature-line {
+            border-bottom: 4px solid black;
+            margin-bottom: 6px;
+            height: 24px;
+        }
+
+        .reason {
+            margin-top: 24px;
+        }
+
+        .reason-line {
+            border-bottom: 4px solid black;
+            height: 30px;
+            margin-top: 12px;
+        }
+
+        .footer {
+            margin-top: 28px;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .main-logo {
+            width: 100%;
+            max-width: 950px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <div class="header">
+            <img src="<%= logoPath %>" alt="Farmacias Similares" class="main-logo" />
+
+            <div class="title">
+                Formato de usos múltiples "Excedentes y Faltantes"
+            </div>
+        </div>
+
+        <div class="options">
+            <div class="option">
+                <span>Traspaso</span>
+
+                <div class="checkbox">
+                    <% if (transfer.destination) { %>
+                        ✓
+                        <% } %>
+                </div>
+            </div>
+
+            <div class="option">
+                <span>Altas y Bajas</span>
+
+                <div class="checkbox"></div>
+            </div>
+
+            <div class="option">
+                <span>Pedido emergente</span>
+
+                <div class="checkbox"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                <div class="field">
+                    <label>No.</label>
+
+                    <div class="small-line">
+                        <%= transfer.origin.id %>
+                    </div>
+
+                    <label>Sucursal:</label>
+
+                    <div class="line">
+                        <%= transfer.origin.name %>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>A:</label>
+
+                    <label>No.</label>
+
+                    <div class="small-line">
+                        <%= transfer.destination?.id || '' %>
+                    </div>
+
+                    <label>Sucursal:</label>
+
+                    <div class="line">
+                        <%= transfer.destination?.name || '' %>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col">
+
+                <div class="field">
+                    <label>Fecha:</label>
+
+                    <div class="line">
+                        <%= transfer.date.toLocaleDateString('es-MX') %>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Autorizó:</label>
+
+                    <div class="line">
+                        <%= transfer.authorizedBy %>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tables">
+
+            <!-- ALTAS -->
+            <div class="table-wrapper">
+
+                <div class="table-title">
+                    Altas
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="code-col">Código</th>
+                            <th class="desc-col">Descripción</th>
+                            <th class="qty-col">Cantidad</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% for (const product of transfer.products) { %>
+
+                            <tr>
+
+                                <td>
+                                    <%= product.id %>
+                                </td>
+
+                                <td>
+                                    <%= product.name %>
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <%= product.amount %>
+                                </td>
+
+                            </tr>
+
+                            <% } %>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- BAJAS -->
+            <div class="table-wrapper">
+
+                <div class="table-title">
+                    Bajas
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="code-col">Código</th>
+                            <th class="desc-col">Descripción</th>
+                            <th class="qty-col">Cantidad</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% for (const product of transfer.products) { %>
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <% } %>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="footer-options">
+
+            <div class="option">
+                <span>Stock</span>
+                <div class="checkbox"></div>
+            </div>
+
+            <div class="option">
+                <span>Desplazo</span>
+                <div class="checkbox"></div>
+            </div>
+
+            <div class="option">
+                <span>Franquicia</span>
+                <div class="checkbox"></div>
+            </div>
+
+            <div class="option">
+                <span>Menudeo</span>
+                <div class="checkbox"></div>
+            </div>
+
+        </div>
+
+        <div class="signature-section">
+
+            <div class="signature">
+                <div class="signature-line"></div>
+
+                <div>
+                    <strong>
+                        Nombre y Firma del Encargado
+                    </strong>
+                </div>
+            </div>
+
+            <div style="width: 320px;">
+                <div class="field">
+                    <label>Folio de autorización:</label>
+
+                    <div style="
+							width: 90px;
+							height: 42px;
+							border: 3px solid black;
+						"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="reason">
+
+            <div>
+                <strong>Motivo:</strong>
+            </div>
+
+            <div class="reason-line"></div>
+
+            <div class="reason-line"></div>
+
+        </div>
+
+        <div class="footer">
+
+            <div>
+                Contacto: Coordinación de Excedentes y Faltantes
+            </div>
+
+            <div>
+                Respuesta: 10 minutos tel. 5422-4518 y 4580 VPN: 6150, 6087 VPN Fax 6148 Fax 4578
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
