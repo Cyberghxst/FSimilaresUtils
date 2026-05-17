@@ -1,0 +1,16 @@
+{
+  "name": "productscraperfrominventorylist",
+  "module": "index.js",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "^1.3.14"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "officeparser": "^7.0.3",
+    "pdf-tables-parser": "^1.0.6"
+  }
+}

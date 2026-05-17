@@ -1,4 +1,33 @@
+import { useEffect, useState } from 'react'
+const { BRANCHES_DB_URL } = import.meta.env
+
+interface Branch {
+  sucursal: number
+  nombre: string
+}
+
 export default function TransferFormUI() {
+  const [branches, setBranches] = useState<Branch[]>([])
+  const [originBranch, setOriginBranch] = useState('')
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await fetch(BRANCHES_DB_URL)
+        const data = await response.json()
+
+        setBranches(data)
+      }
+      catch (error) {
+        console.error(
+          'Error fetching branches:',
+          error
+        )
+      }
+    }
+
+    fetchBranches()
+  }, [])
+
   return (
     <div className="min-h-screen bg-zinc-100 p-8">
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-8 border border-zinc-200">
@@ -25,11 +54,34 @@ export default function TransferFormUI() {
               Sucursal origen
             </label>
 
-            <input
-              type="text"
-              placeholder="Ej. 123 - Centro"
-              className="w-full rounded-2xl border border-zinc-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <select
+              className="
+		w-full
+		rounded-2xl
+		border
+		border-zinc-300
+		px-4
+		py-3
+		outline-none
+		focus:ring-2
+		focus:ring-blue-500
+	"
+            >
+
+              <option value="">
+                Selecciona sucursal
+              </option>
+
+              {branches.map((branch) => (
+                <option
+                  key={branch.sucursal}
+                  value={branch.sucursal}
+                >
+                  {branch.sucursal} - {branch.nombre}
+                </option>
+              ))}
+
+            </select>
           </div>
 
           <div>
@@ -37,11 +89,34 @@ export default function TransferFormUI() {
               Sucursal destino
             </label>
 
-            <input
-              type="text"
-              placeholder="Ej. 456 - Norte"
-              className="w-full rounded-2xl border border-zinc-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <select
+              className="
+		w-full
+		rounded-2xl
+		border
+		border-zinc-300
+		px-4
+		py-3
+		outline-none
+		focus:ring-2
+		focus:ring-blue-500
+	"
+            >
+
+              <option value="">
+                Selecciona sucursal
+              </option>
+
+              {branches.map((branch) => (
+                <option
+                  key={branch.sucursal}
+                  value={branch.sucursal}
+                >
+                  {branch.sucursal} - {branch.nombre}
+                </option>
+              ))}
+
+            </select>
           </div>
         </div>
 
